@@ -1,14 +1,14 @@
-﻿using Centisoft.Application.Features.Company.Dto;
+﻿using DFDSBooking.Application.Features.Booking.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Queries.GetAllCompanies
+namespace DFDSBooking.Application.Features.Booking.Queries.GetAllBookings
 {
-    public class GetAllCompaniesQuery : IQuery<CollectionResponseBase<CompanyDto>>
+    public class GetAllBookingsQuery : IQuery<CollectionResponseBase<BookingDto>>
     {
-        //does not require any properties, since it is loading all companies
+        //does not require any properties, since it is loading all bookings
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Centisoft.Application.Contracts.Persistence;
-using Centisoft.Application.Features.Company.Dto;
-using Centisoft.Domain.Common;
+using DFDSBooking.Application.Contracts.Persistence;
+using DFDSBooking.Application.Features.Booking.Dto;
+using DFDSBooking.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,39 +9,40 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Queries.GetAllCompanies
+namespace DFDSBooking.Application.Features.Booking.Queries.GetAllBookings
 {
-    public class GetAllCompaniesQueryHandler : IQueryHandler<GetAllCompaniesQuery, CollectionResponseBase<CompanyDto>>
+    public class GetAllBookingsQueryHandler : IQueryHandler<GetAllBookingsQuery, CollectionResponseBase<BookingDto>>
     {
-        private ICompanyRepository companyRepository;
+        private IBookingRepository bookingRepository;
         private IMapper mapper;
-        public GetAllCompaniesQueryHandler(ICompanyRepository companyRepository, IMapper mapper)
+        public GetAllBookingsQueryHandler(IBookingRepository bookingRepository, IMapper mapper)
         {
-            this.companyRepository = companyRepository;
+            this.bookingRepository = bookingRepository;
             this.mapper = mapper;
         }
 
-        public async Task<Result<CollectionResponseBase<CompanyDto>>> Handle(GetAllCompaniesQuery query, CancellationToken cancellationToken = default)
+        public async Task<Result<CollectionResponseBase<BookingDto>>> Handle(GetAllBookingsQuery query, CancellationToken cancellationToken = default)
         {
-            List<CompanyDto> result = new List<CompanyDto>();
-            var companies = await this.companyRepository.GetAllAsync();
-            foreach (var company in companies)
+            List<BookingDto> result = new List<BookingDto>();
+            var bookings = await this.bookingRepository.GetAllAsync();
+            foreach (var booking in bookings)
             {
-                CompanyDto companyDto = new CompanyDto();
-                companyDto.Id = company.Id;
-                companyDto.Name = company.Name;
-                companyDto.Street = company.Address.Street;
-                companyDto.City = company.Address.City;
-                companyDto.ZipCode = company.Address.ZipCode;
-                companyDto.Email = company.Email.Value;
-                //handle the contacts
-                foreach (var contact in company.Contacts)
+                BookingDto bookingDto = new BookingDto();
+                bookingDto.Id = booking.Id;
+                bookingDto.CreatedDate = booking.CreatedDate;
+                bookingDto.OutboundDate = booking.OutboundDate;
+                bookingDto.ReturnDate = booking.ReturnDate;
+                bookingDto.From = booking.From;
+                bookingDto.To = booking.To;
+
+                //handle the passengers
+                foreach (var passenger in booking.Passengers)
                 {
-                    var mappedContact = mapper.Map<ContactDto>(contact);
+                    var mappedPassenger = mapper.Map<PassengerDto>(passenger);
                 }
-                result.Add(companyDto);
+                result.Add(bookingDto);
             }
-            return new CollectionResponseBase<CompanyDto>()
+            return new CollectionResponseBase<BookingDto>()
             {
                 Data = result
             };

@@ -1,5 +1,5 @@
-﻿using Centisoft.Application.Contracts.Persistence;
-using Centisoft.Domain.Common;
+﻿using DFDSBooking.Application.Contracts.Persistence;
+using DFDSBooking.Domain.Common;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
@@ -8,19 +8,19 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Commands.DeleteCompany
+namespace DFDSBooking.Application.Features.Booking.Commands.DeleteBooking
 {
-    public class DeleteCompanyCommandHandler : ICommandHandler<DeleteCompanyCommand>
+    public class DeleteBookingCommandHandler : ICommandHandler<DeleteBookingCommand>
     {
-        private ICompanyRepository companyRepository;
-        public DeleteCompanyCommandHandler(ICompanyRepository companyRepository)
+        private IBookingRepository bookingRepository;
+        public DeleteBookingCommandHandler(IBookingRepository bookingRepository)
         {
-            this.companyRepository = companyRepository;
+            this.bookingRepository = bookingRepository;
         }
-        public async Task<Result> Handle(DeleteCompanyCommand command, CancellationToken cancellationToken = default)
+        public async Task<Result> Handle(DeleteBookingCommand command, CancellationToken cancellationToken = default)
         {
             Ensure.That(command).IsNotNull();
-            await Task.Run(()=>companyRepository.DeleteAsync(command.CompanyId));
+            await Task.Run(()=>bookingRepository.DeleteAsync(command.BookingId));
             return Result.Ok();
         }
     }

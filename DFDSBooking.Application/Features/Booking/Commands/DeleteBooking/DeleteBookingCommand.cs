@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Commands.DeleteCompany
+namespace DFDSBooking.Application.Features.Booking.Commands.DeleteBooking
 {
-    public class DeleteCompanyCommand : ICommand
+    public class DeleteBookingCommand : ICommand
     {
-        public DeleteCompanyCommand(int companyId)
+        public long BookingId { get; set; }
+
+        public DeleteBookingCommand(long bookingId)
         {
-            Ensure.That(companyId).IsGt(0);
-            CompanyId = companyId;
+            Ensure.That(bookingId).IsGt(0);
+            BookingId = bookingId;
         }
-        public int CompanyId { get; set; }
     }
 }

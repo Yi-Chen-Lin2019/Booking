@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DFDSBooking.Domain.Entities;
 
-namespace Centisoft.Application.Features.Company.Dto
+namespace DFDSBooking.Application.Features.Booking.Dto
 {
-    public class CompanyDto
-    {        
-        public CompanyDto(int id, string name, string street, string city, string zip, string email)
+    public class BookingDto
+    {
+        public long Id { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime OutboundDate { get; set; }
+        public DateTime ReturnDate { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+
+        public BookingDto(long bookingId, DateTime createdDate, DateTime outboundDate, DateTime returnDate, string from, string to)
         {
-            Id = id;   
-            Name = name;
-            Street = street;
-            City = city;
-            Email = email;
-            ZipCode = zip;
+            Id = bookingId;
+            CreatedDate = createdDate;
+            OutboundDate = outboundDate;
+            ReturnDate = returnDate;
+            From = from;
+            To = to;
         }
-        public CompanyDto() { }
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string ZipCode { get; set; }
-        public string Email { get; set; }
+
+        public BookingDto()
+        {
+        }
     }
 }

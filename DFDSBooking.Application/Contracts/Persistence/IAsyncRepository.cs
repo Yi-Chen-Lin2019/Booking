@@ -6,9 +6,9 @@ namespace DFDSBooking.Application.Contracts.Persistence
 {
     public interface IAsyncRepository<T> where T : AggregateRoot
     {
-        Task<Result<T>> GetByIdAsync(int id);
+        Task<Result<T>> GetByIdAsync(long id);
         Task<int> AddAsync(T entity);
-        Task<int> UpdateAsync(T entity);
-        Task<int> DeleteAsync(int id);
+        void UpdateAsync(T entity);
+        void DeleteAsync(long id);
     }
 }

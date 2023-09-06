@@ -1,6 +1,6 @@
-﻿using Centisoft.Application.Contracts.Persistence;
-using Centisoft.Domain.Common;
-using Centisoft.Domain.ValueObjects;
+﻿using DFDSBooking.Application.Contracts.Persistence;
+using DFDSBooking.Domain.Common;
+using DFDSBooking.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,24 +8,20 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Commands.UpdateCompany
+namespace DFDSBooking.Application.Features.Booking.Commands.UpdateBooking
 {
-    public class UpdateCompanyCommandHandler : ICommandHandler<UpdateCompanyCommand>
+    public class UpdateBookingCommandHandler : ICommandHandler<UpdateBookingCommand>
     {
-        private ICompanyRepository companyRepository;
-        public UpdateCompanyCommandHandler(ICompanyRepository companyRepository)
+        private IBookingRepository bookingRepository;
+        public UpdateBookingCommandHandler(IBookingRepository bookingRepository)
         {
-            this.companyRepository = companyRepository;
+            this.bookingRepository = bookingRepository;
         }
-        public async Task<Result> Handle(UpdateCompanyCommand command, CancellationToken cancellationToken = default)
+        public async Task<Result> Handle(UpdateBookingCommand command, CancellationToken cancellationToken = default)
         {
-            var addressResult = Address.Create(command.Street, command.City, command.ZipCode);
-            if (addressResult.Failure) return Result.Fail(addressResult.Error);
-            var emailResult = Email.Create(command.Email);
-            if(emailResult.Failure) return Result.Fail(emailResult.Error);
-            //create the company
-            Domain.AggregateRoots.Company company = new Domain.AggregateRoots.Company(command.CompanyId, command.Name, addressResult.Value, emailResult.Value);
-            await Task.Run(()=>this.companyRepository.UpdateAsync(company));
+            Domain.AggregateRoots.Booking booking =
+                new Domain.AggregateRoots.Booking(command.BookingId, command.CreatedDate, command.OutboundDate, command.ReturnDate, command.From, command.To);
+            await Task.Run(()=>this.bookingRepository.UpdateAsync(booking));
             return Result.Ok();
         }
     }

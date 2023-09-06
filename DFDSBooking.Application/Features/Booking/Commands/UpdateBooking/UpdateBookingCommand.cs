@@ -4,24 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Commands.UpdateCompany
+namespace DFDSBooking.Application.Features.Booking.Commands.UpdateBooking
 {
-    public class UpdateCompanyCommand : ICommand
+    public class UpdateBookingCommand : ICommand
     {
-        public UpdateCompanyCommand(int companyId, string name, string street, string city, string zipcode, string email)
+        public long BookingId { get; private set; }
+        public DateTime CreatedDate { get; private set; }
+        public DateTime OutboundDate { get; private set; }
+        public DateTime ReturnDate { get; private set; }
+        public string From { get; private set; }
+        public string To { get; private set; }
+
+        public UpdateBookingCommand(long bookingId, DateTime createdDate, DateTime outboundDate, DateTime returnDate, string from, string to)
         {
-            CompanyId = companyId;
-            Name = name;
-            Street = street;
-            City = city;
-            ZipCode = zipcode;
-            Email = email;
+            this.BookingId = bookingId;
+            this.CreatedDate = createdDate;
+            this.OutboundDate = outboundDate;
+            this.ReturnDate = returnDate;
+            this.From = from;
+            this.To = to;
         }
-        public int CompanyId { get; private set; }
-        public string Name { get; private set; }
-        public string Street { get; private set; }
-        public string City { get; private set; }
-        public string ZipCode { get; private set; }
-        public string Email { get; private set; }
-    }
+}
 }

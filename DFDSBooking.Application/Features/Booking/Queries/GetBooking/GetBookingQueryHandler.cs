@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Centisoft.Application.Contracts.Persistence;
-using Centisoft.Application.Features.Company.Dto;
-using Centisoft.Domain.Common;
+using DFDSBooking.Application.Contracts.Persistence;
+using DFDSBooking.Application.Features.Booking.Dto;
+using DFDSBooking.Domain.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,23 +10,23 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Queries.GetCompany
+namespace DFDSBooking.Application.Features.Booking.Queries.GetBooking
 {
-    public class GetCompanyQueryHandler : IQueryHandler<GetCompanyQuery, CompanyDto>
+    public class GetBookingQueryHandler : IQueryHandler<GetBookingQuery, BookingDto>
     {
         private IMapper mapper;
-        private ICompanyRepository companyRepository;
-        public GetCompanyQueryHandler(IMapper mapper, ICompanyRepository companyRepository)
+        private IBookingRepository bookingRepository;
+        public GetBookingQueryHandler(IMapper mapper, IBookingRepository bookingRepository)
         {
             this.mapper = mapper;
-            this.companyRepository = companyRepository;
+            this.bookingRepository = bookingRepository;
         }
 
-        public async Task<Result<CompanyDto>> Handle(GetCompanyQuery query, CancellationToken cancellationToken = default)
+        public async Task<Result<BookingDto>> Handle(GetBookingQuery query, CancellationToken cancellationToken = default)
         {
-            var company = await this.companyRepository.GetByIdAsync(query.CompanyId);
-            var companyDto = this.mapper.Map<CompanyDto>(company);
-            return Result.Ok(companyDto);
+            var booking = await this.bookingRepository.GetByIdAsync(query.BookingId);
+            var bookingDto = this.mapper.Map<BookingDto>(booking);
+            return Result.Ok(bookingDto);
         }
     }
 }

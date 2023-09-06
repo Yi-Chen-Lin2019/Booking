@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Dto
+namespace DFDSBooking.Application.Features.Booking.Dto
 {
-    public class ContactDto
+    public class PassengerDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public long Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string? MiddleName { get; set; }
+        public string Country { get; set; }
+        public long PassportNo { get; set; }
+        public DateTime ExpireDate { get; set; }
     }
 }

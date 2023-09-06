@@ -1,4 +1,4 @@
-﻿using Centisoft.Application.Features.Company.Dto;
+﻿using DFDSBooking.Application.Features.Booking.Dto;
 using EnsureThat;
 using MediatR;
 using System;
@@ -7,15 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Queries.GetCompany
+namespace DFDSBooking.Application.Features.Booking.Queries.GetBooking
 {
-    public class GetCompanyQuery : IQuery<CompanyDto>
+    public class GetBookingQuery : IQuery<BookingDto>
     {
-        public GetCompanyQuery(int companyId)
+        public long BookingId { get; private set; }
+
+        public GetBookingQuery(long bookingId)
         {
-            Ensure.That(companyId, nameof(companyId)).IsGt(0);            
-            CompanyId = companyId;
+            Ensure.That(bookingId, nameof(bookingId)).IsGt(0);            
+            BookingId = bookingId;
         }
-        public int CompanyId { get; private set; }
     }
 }
