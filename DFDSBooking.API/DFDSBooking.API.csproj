@@ -18,9 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFDSBooking.Domain\DFDSBooking.Application\DFDSBooking.Application.csproj">
+    <ProjectReference Include="..\DFDSBooking.Application\DFDSBooking.Application.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-      <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
     </ProjectReference>
     <ProjectReference Include="..\DFDSBooking.Persistence\DFDSBooking.Persistence.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
