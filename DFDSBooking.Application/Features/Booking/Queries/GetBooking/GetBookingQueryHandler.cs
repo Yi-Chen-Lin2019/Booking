@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DFDSBooking.Application.Contracts.Persistence;
 using DFDSBooking.Application.Features.Booking.Dto;
+using DFDSBooking.Domain.AggregateRoots;
 using DFDSBooking.Domain.Common;
 using MediatR;
 using System;
@@ -24,8 +25,8 @@ namespace DFDSBooking.Application.Features.Booking.Queries.GetBooking
 
         public async Task<Result<BookingDto>> Handle(GetBookingQuery query, CancellationToken cancellationToken = default)
         {
-            var booking = await this.bookingRepository.GetByIdAsync(query.BookingId);
-            var bookingDto = this.mapper.Map<BookingDto>(booking);
+            Domain.AggregateRoots.Booking booking = await bookingRepository.GetByIdAsync(query.BookingId);
+            BookingDto bookingDto = (BookingDto)mapper.Map(booking, booking.GetType(), typeof(BookingDto));
             return Result.Ok(bookingDto);
         }
     }
