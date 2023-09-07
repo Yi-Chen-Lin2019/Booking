@@ -20,7 +20,7 @@ namespace DFDSBooking.Application.Features.Booking.Commands.UpdateBooking
         public async Task<Result> Handle(UpdateBookingCommand command, CancellationToken cancellationToken = default)
         {
             Domain.AggregateRoots.Booking booking =
-                new Domain.AggregateRoots.Booking(command.BookingId, command.CreatedDate, command.OutboundDate, command.ReturnDate, command.From, command.To);
+                new Domain.AggregateRoots.Booking(command.BookingId, command.OutboundDate, command.ReturnDate, command.From, command.To, command.Passengers);
             await Task.Run(()=>this.bookingRepository.UpdateAsync(booking));
             return Result.Ok();
         }

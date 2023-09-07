@@ -127,9 +127,43 @@ namespace DFDSBooking.Persistence.Repositories
         {
             using (var connection = dataContext.CreateConnection())
             {
-                string command = $"update {tableName} set name = @name where id = @id";
-                await connection.ExecuteAsync(command, new { createdDate = entity.CreatedDate, id = entity.Id });
-                //await Task.Run(() => UpdateAddressAsync(entity.Address, entity.Id));
+                var updateBooking = """
+                    UPDATE Booking SET
+                    [OutboundDate] = @OutboundDate,
+                    [ReturnDate] = @ReturnDate,
+                    [From] = @From, [To] = @To
+                    WHERE Id = @BookingId;
+                    """;
+                var updatePassenger = """
+                    UPDATE Passenger SET
+                    [FirstName] = @FirstName, [LastName] = @LastName,
+                    [MiddleName] = @MiddleName, [Country] = @Country,
+                    [PassportNo] = @PassportNo, [ExpireDate] = @ExpireDate, [BookingId] = @BookingId
+                    WHERE BookingId = @BookingId AND Id = @PassengerId;
+                    """;
+                await connection.ExecuteAsync(updateBooking, new
+                {
+                    OutboundDate = entity.OutboundDate,
+                    ReturnDate = entity.ReturnDate,
+                    From = entity.From,
+                    To = entity.To,
+                    BookingId = entity.Id,
+                });
+
+                foreach (var p in entity.Passengers)
+                {
+                    await connection.ExecuteAsync(updatePassenger, new
+                    {
+                        FirstName = p.FirstName,
+                        LastName = p.LastName,
+                        MiddleName = p.MiddleName,
+                        Country = p.Country,
+                        PassportNo = p.PassportNo,
+                        ExpireDate = p.ExpireDate,
+                        BookingId = entity.Id,
+                        PassengerId = p.Id
+                    });
+                }
             }
         }
     }

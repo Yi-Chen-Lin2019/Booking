@@ -77,11 +77,11 @@ namespace DFDSBooking.API.Controllers
         {
             UpdateBookingCommand updateCommand = new UpdateBookingCommand(
                 request.BookingId,
-                request.CreatedDate,
                 request.OutboundDate,
                 request.ReturnDate,
                 request.From,
-                request.To);
+                request.To,
+                request.Passengers);
             var result = await dispatcher.Dispatch(updateCommand);
             return FromResult(result);
         }
