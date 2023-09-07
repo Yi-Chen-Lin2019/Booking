@@ -1,7 +1,10 @@
-﻿using DFDSBooking.Application;
+﻿using AutoMapper;
+using DFDSBooking.Application;
 using DFDSBooking.Application.Contracts.Persistence;
 using DFDSBooking.Persistence;
 using DFDSBooking.Persistence.Repositories;
+using MediatR;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +18,7 @@ builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IDispatcher, Dispatcher>();
 builder.Services.AddScoped<DataContext, DataContext>();
 builder.Services.AddApplicationServices();
+builder.Services.AddAutoMapper(typeof(Profile));
 
 var app = builder.Build();
 

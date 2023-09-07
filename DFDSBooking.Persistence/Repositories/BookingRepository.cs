@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DFDSBooking.Domain.Entities;
 
 namespace DFDSBooking.Persistence.Repositories
 {
@@ -36,19 +37,23 @@ namespace DFDSBooking.Persistence.Repositories
 
         public async Task<IEnumerable<Booking>> GetAllAsync()
         {
+            IEnumerable<Booking> result = new List<Booking>();
+            var sql = """
+                SELECT b.Id,[CreatedDate], [OutboundDate], [ReturnDate], [From], [To],
+                [FirstName], [MiddleName], [LastName], [Country], [PassportNo], [ExpireDate]
+                FROM Booking b INNER JOIN Passenger p on p.BookingId = b.Id
+                """;
             using (var connection = dataContext.CreateConnection())
             {
-                List<Booking> result = new List<Booking>();
-                var query = $"select * from {tableName}";
-                var bookings = await connection.QueryAsync<Booking>(query);
-                //foreach (var booking in bookings)
-                //{
-                //    booking.Address = await GetAddressFromBookingId(booking.Id);
-                //    booking.Email = await GetEmailFromBookingId(booking.Id);
-                //    result.Add(booking);
-                //}
-                return result;
+                IEnumerable<Booking> bookings = await connection.QueryAsync<Booking, Passenger, Booking>
+                    (sql, (booking, passenger) =>
+                    {
+                        booking.AddPassenger(passenger);
+                        return booking;
+                    }, splitOn: "FirstName");
+                result = bookings;
             }
+            return result;
         }
 
         public async Task<Result<Booking>> GetByIdAsync(long id)
