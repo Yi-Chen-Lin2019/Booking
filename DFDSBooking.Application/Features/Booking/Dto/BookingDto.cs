@@ -15,6 +15,7 @@ namespace DFDSBooking.Application.Features.Booking.Dto
         public DateTime ReturnDate { get; set; }
         public string From { get; set; }
         public string To { get; set; }
+        public IEnumerable<PassengerDto> Passengers { get; set; }
 
         public BookingDto(long bookingId, DateTime createdDate, DateTime outboundDate, DateTime returnDate, string from, string to)
         {
@@ -24,10 +25,12 @@ namespace DFDSBooking.Application.Features.Booking.Dto
             ReturnDate = returnDate;
             From = from;
             To = to;
+            this.Passengers = new List<PassengerDto>();
         }
 
         public BookingDto()
         {
+            this.Passengers = new List<PassengerDto>();
         }
     }
 }

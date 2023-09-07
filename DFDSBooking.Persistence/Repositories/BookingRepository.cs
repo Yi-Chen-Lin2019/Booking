@@ -40,18 +40,22 @@ namespace DFDSBooking.Persistence.Repositories
             IEnumerable<Booking> result = new List<Booking>();
             var sql = """
                 SELECT b.Id,[CreatedDate], [OutboundDate], [ReturnDate], [From], [To],
-                [FirstName], [MiddleName], [LastName], [Country], [PassportNo], [ExpireDate]
+                [FirstName], [MiddleName], [LastName], [Country], [PassportNo], [ExpireDate], p.Id
                 FROM Booking b INNER JOIN Passenger p on p.BookingId = b.Id
                 """;
             using (var connection = dataContext.CreateConnection())
             {
+                var lookup = new Dictionary<long, Booking>();
                 IEnumerable<Booking> bookings = await connection.QueryAsync<Booking, Passenger, Booking>
-                    (sql, (booking, passenger) =>
+                    (sql, (b, p) =>
                     {
-                        booking.AddPassenger(passenger);
+                        Booking booking;
+                        if (!lookup.TryGetValue(b.Id, out booking))
+                            lookup.Add(b.Id, booking = b);
+                        booking.Passengers.Add(p);
                         return booking;
                     }, splitOn: "FirstName");
-                result = bookings;
+                result = lookup.Values.ToList();
             }
             return result;
         }
