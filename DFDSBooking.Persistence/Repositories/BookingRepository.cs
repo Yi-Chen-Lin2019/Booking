@@ -21,8 +21,39 @@ namespace DFDSBooking.Persistence.Repositories
         {
             using (var connection = dataContext.CreateConnection())
             {
-                string query = $"insert into {tableName} (Name, Street, City, ZipCode, Email) OUTPUT INSERTED.Id values (@name, @street, @city, @zipcode, @email)";
-                return await connection.QuerySingleAsync<int>(query, new { createdDate = entity.CreatedDate });
+                var insertBooking = """
+                    INSERT INTO Booking ([CreatedDate], [OutboundDate], [ReturnDate], [From], [To])
+                    OUTPUT INSERTED.Id
+                    VALUES (@CreatedDate, @OutboundDate, @ReturnDate, @From, @To);
+                    """;
+                var insertPassenger = """
+                    INSERT INTO Passenger ([FirstName], [LastName], [MiddleName], [Country], [PassportNo], [ExpireDate], [BookingId])
+                    OUTPUT INSERTED.Id
+                    VALUES (@FirstName, @LastName, @MiddleName, @Country, @PassportNo, @ExpireDate ,@BookingId);
+                    """;
+                var bookingId = await connection.QuerySingleAsync<int>(insertBooking, new
+                {
+                    CreatedDate = entity.CreatedDate,
+                    OutboundDate = entity.OutboundDate,
+                    ReturnDate = entity.ReturnDate,
+                    From = entity.From,
+                    To = entity.To
+                });
+
+                foreach (var p in entity.Passengers)
+                {
+                    await connection.QuerySingleAsync<int>(insertPassenger, new
+                    {
+                        FirstName = p.FirstName,
+                        LastName = p.LastName,
+                        MiddleName = p.MiddleName,
+                        Country = p.Country,
+                        PassportNo = p.PassportNo,
+                        ExpireDate = p.ExpireDate,
+                        BookingId = bookingId
+                    });
+                }
+                return bookingId;
             }
         }
 

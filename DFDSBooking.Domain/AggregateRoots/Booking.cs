@@ -41,6 +41,27 @@ namespace DFDSBooking.Domain.AggregateRoots
             this.Passengers = new List<Passenger>();
         }
 
+        public Booking(DateTime createdDate, DateTime outboundDate, DateTime returnDate, string from, string to, List<Passenger> passengers)
+        {
+            CreatedDate = createdDate;
+            OutboundDate = outboundDate;
+            ReturnDate = returnDate;
+            From = from;
+            To = to;
+            this.Passengers = passengers;
+        }
+
+        public Booking(long bookingId, DateTime createdDate, DateTime outboundDate, DateTime returnDate, string from, string to, List<Passenger> passengers)
+        {
+            Id = bookingId;
+            CreatedDate = createdDate;
+            OutboundDate = outboundDate;
+            ReturnDate = returnDate;
+            From = from;
+            To = to;
+            this.Passengers = passengers;
+        }
+
         public void AddPassenger(Passenger passenger)
         {
             Ensure.That(passenger, nameof(passenger)).IsNotNull();

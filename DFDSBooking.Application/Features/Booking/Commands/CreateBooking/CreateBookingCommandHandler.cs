@@ -21,7 +21,7 @@ namespace DFDSBooking.Application.Features.Booking.Commands.CreateBooking
 
         public async Task<Result> Handle(CreateBookingCommand command, CancellationToken cancellationToken = default)
         {
-            var booking = new Domain.AggregateRoots.Booking(command.CreatedDate, command.OutboundDate, command.ReturnDate, command.From, command.To);
+            var booking = new Domain.AggregateRoots.Booking(command.CreatedDate, command.OutboundDate, command.ReturnDate, command.From, command.To, command.Passengers);
             var bookingId = await this.bookingRepository.AddAsync(booking);
             return Result.Ok(bookingId);
         }        

@@ -43,7 +43,8 @@ namespace DFDSBooking.API.Controllers
                     bookingRequest.OutboundDate,
                     bookingRequest.ReturnDate,
                     bookingRequest.From,
-                    bookingRequest.To);
+                    bookingRequest.To,
+                    bookingRequest.Passengers);
                 var commandResult = await this.dispatcher.Dispatch(command);
                 return FromResult(commandResult);
             }
