@@ -61,7 +61,7 @@ namespace DFDSBooking.Persistence.Repositories
         {
             using (var connection = dataContext.CreateConnection())
             {
-                string command = $"delete from {tableName} where id = @id";
+                string command = $"DELETE FROM {tableName} WHERE id = @id";
                 connection.Execute(command, new { id });
             }
         }
