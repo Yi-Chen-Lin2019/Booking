@@ -21,10 +21,12 @@
     <None Remove="Contracts\" />
     <None Remove="Features\" />
     <None Remove="Features\Booking\" />
+    <None Remove="Features\Booking\Commands\DeletePassengerInBooking\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contracts\" />
     <Folder Include="Features\" />
     <Folder Include="Features\Booking\" />
+    <Folder Include="Features\Booking\Commands\DeletePassengerInBooking\" />
   </ItemGroup>
 </Project>

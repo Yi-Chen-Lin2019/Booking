@@ -7,6 +7,7 @@ namespace DFDSBooking.Application.Contracts.Persistence
 {
     public interface IBookingRepository : IAsyncRepository<Booking>
     {
+        void DeletePassengerInBookingAsync(long bookingId, long passengerId);
         Task<IEnumerable<Booking>> GetAllAsync();
     }
 }

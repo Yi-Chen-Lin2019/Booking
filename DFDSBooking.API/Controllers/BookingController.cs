@@ -3,6 +3,7 @@ using DFDSBooking.Application;
 using DFDSBooking.Application.Features.booking.Commands.UpdateBooking;
 using DFDSBooking.Application.Features.Booking.Commands.CreateBooking;
 using DFDSBooking.Application.Features.Booking.Commands.DeleteBooking;
+using DFDSBooking.Application.Features.Booking.Commands.DeletePassengerInBooking;
 using DFDSBooking.Application.Features.Booking.Commands.UpdateBooking;
 using DFDSBooking.Application.Features.Booking.Queries.GetAllBookings;
 using DFDSBooking.Application.Features.Booking.Queries.GetBooking;
@@ -68,6 +69,14 @@ namespace DFDSBooking.API.Controllers
         public async Task<IActionResult> DeleteBooking(int id)
         {
             var result = await this.dispatcher.Dispatch(new DeleteBookingCommand(id));
+            return FromResult(result);
+        }
+
+        [HttpDelete]
+        [Route("{id}/passengers")]
+        public async Task<IActionResult> DeletePassengerInBooking(int bookingId, int passengerId)
+        {
+            var result = await this.dispatcher.Dispatch(new DeletePassengerInBookingCommand(bookingId, passengerId));
             return FromResult(result);
         }
 

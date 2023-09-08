@@ -66,6 +66,15 @@ namespace DFDSBooking.Persistence.Repositories
             }
         }
 
+        public void DeletePassengerInBookingAsync(long bookingId, long passengerId)
+        {
+            using (var connection = dataContext.CreateConnection())
+            {
+                string command = $"DELETE FROM PASSENGER WHERE id = @passengerId AND bookingId = @bookingId";
+                connection.Execute(command, new { passengerId, bookingId });
+            }
+        }
+
         public async Task<IEnumerable<Booking>> GetAllAsync()
         {
             IEnumerable<Booking> result = new List<Booking>();
