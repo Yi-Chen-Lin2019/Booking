@@ -9,6 +9,6 @@ namespace DFDSBooking.Application.Contracts.Persistence
         Task<Result<T>> GetByIdAsync(long id);
         Task<int> AddAsync(T entity);
         void UpdateAsync(T entity);
-        void DeleteAsync(long id);
+        Task<int> DeleteAsync(long id);
     }
 }

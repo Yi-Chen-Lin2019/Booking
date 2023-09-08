@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DFDSBooking.Domain.Entities;
+using static Dapper.SqlMapper;
 
 namespace DFDSBooking.Persistence.Repositories
 {
@@ -57,21 +58,43 @@ namespace DFDSBooking.Persistence.Repositories
             }
         }
 
-        public void DeleteAsync(long id)
+        public async Task<int> AddPassengerInBookingAsync(long bookingId, Passenger entity)
+        {
+            using (var connection = dataContext.CreateConnection())
+            {
+                var insertPassenger = """
+                    INSERT INTO Passenger ([FirstName], [LastName], [MiddleName], [Country], [PassportNo], [ExpireDate], [BookingId])
+                    OUTPUT INSERTED.Id
+                    VALUES (@FirstName, @LastName, @MiddleName, @Country, @PassportNo, @ExpireDate ,@BookingId);
+                    """;
+                return await connection.QuerySingleAsync<int>(insertPassenger, new
+                {
+                    FirstName = entity.FirstName,
+                    LastName = entity.LastName,
+                    MiddleName = entity.MiddleName,
+                    Country = entity.Country,
+                    PassportNo = entity.PassportNo,
+                    ExpireDate = entity.ExpireDate,
+                    BookingId = bookingId
+                });
+            }
+        }
+
+        public async Task<int> DeleteAsync(long id)
         {
             using (var connection = dataContext.CreateConnection())
             {
                 string command = $"DELETE FROM {tableName} WHERE id = @id";
-                connection.Execute(command, new { id });
+                return await connection.ExecuteAsync(command, new { id });
             }
         }
 
-        public void DeletePassengerInBookingAsync(long bookingId, long passengerId)
+        public async Task<int> DeletePassengerInBookingAsync(long bookingId, long passengerId)
         {
             using (var connection = dataContext.CreateConnection())
             {
                 string command = $"DELETE FROM PASSENGER WHERE id = @passengerId AND bookingId = @bookingId";
-                connection.Execute(command, new { passengerId, bookingId });
+                return await connection.ExecuteAsync(command, new { passengerId, bookingId });
             }
         }
 

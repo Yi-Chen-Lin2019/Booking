@@ -2,6 +2,7 @@
 using DFDSBooking.Application;
 using DFDSBooking.Application.Features.booking.Commands.UpdateBooking;
 using DFDSBooking.Application.Features.Booking.Commands.CreateBooking;
+using DFDSBooking.Application.Features.Booking.Commands.CreatePassengerInBooking;
 using DFDSBooking.Application.Features.Booking.Commands.DeleteBooking;
 using DFDSBooking.Application.Features.Booking.Commands.DeletePassengerInBooking;
 using DFDSBooking.Application.Features.Booking.Commands.UpdateBooking;
@@ -91,6 +92,22 @@ namespace DFDSBooking.API.Controllers
                 request.From,
                 request.To,
                 request.Passengers);
+            var result = await dispatcher.Dispatch(updateCommand);
+            return FromResult(result);
+        }
+
+        [HttpPut]
+        [Route("{id}/passengers")]
+        public async Task<IActionResult> UpdatePassengerInBooking(CreatePassengerInBookingRequest request)
+        {
+            CreatePassengerInBookingCommand updateCommand = new CreatePassengerInBookingCommand(
+                request.BookingId,
+                request.FirstName,
+                request.LastName,
+                request.Country,
+                request.PassportNo,
+                request.ExpireDate,
+                request.MiddleName);
             var result = await dispatcher.Dispatch(updateCommand);
             return FromResult(result);
         }
