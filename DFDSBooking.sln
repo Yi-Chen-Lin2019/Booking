@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{3D7BEB61-5115-4C31-A62C-FCC03D90ED42}"
 	ProjectSection(SolutionItems) = preProject
 		database.sql = database.sql
-		populateData.sql = populateData.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{B5441C8A-8A28-47C2-B25F-5F7EF7F2F52B}"
